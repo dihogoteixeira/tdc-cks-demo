@@ -1,5 +1,5 @@
 ---
-![tdc-2021](https://img.shields.io/badge/tdc-2021-yellowblue?style=flat-square)
+![tdc-2021](https://img.shields.io/badge/tdc-2021-red?style=flat-square)
 ![terraform-latest](https://img.shields.io/badge/terraform-latest-blueviolet?style=flat-square)
 ![google-cloud](https://img.shields.io/badge/google-cloud-blue?style=flat-square)
 ![k8s-v1.22.2](https://img.shields.io/badge/k8s-v1.22.2-blue?style=flat-square)
@@ -52,10 +52,31 @@ provider "google" {
 ```
 ---
 
-#### COMANDOS DE REFERENCIA
+#### CLONE O REPO
 
 ```sh
-cd setup
+git clone https://github.com/dihogoteixeira/tdc-cks-demo.git
+cd tdc-cks-demo/setup
+```
+
+### DEFININDO SSH-KEY E USERNAME PARA SSH
+
+Edite o arquivo `main.tf` e altere os `VALUES` da lista `ssh_keys`, substituindo pela sua chave publica, e seu username conforme exemplo abaixo:
+
+```go
+    ssh_keys = [
+        {
+            publickey = "ssh-rsa yourkeyabc username@PC"
+            user      = "username"
+        } 
+    ]
+```
+
+Realize essa substituição para ambos os módulos `master` e `worker` instanciados no arquivo `main.tf`.
+
+### EXECUTANDO O SETUP DO CLUSTER
+
+```sh
 terraform init
 terraform plan
 terraform apply -auto-approve
