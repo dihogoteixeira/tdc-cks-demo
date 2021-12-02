@@ -7,9 +7,10 @@
 
 Repositório criado para auxiliar no processo de demonstração do TDC 2021 sessão FullCycle.
 
+---
+
 ***Para provisionar seu ambiente certifique-se de ter seguido todos os passos a seguir***
 
----
 #### CRIANDO CHAVE PARA CONTA DE SERVICO NA GCP
 
 1. [Create Service Account](https://console.cloud.google.com/apis/credentials/serviceaccountkey "Create Service Account")
@@ -32,7 +33,7 @@ export GOOGLE_PROJECT=seu-project-id
 ```
 
 ---
-### ADICIONANDO VARIAVEIS DE AMBIENTE NO BASH PROFILE
+#### ADICIONANDO VARIAVEIS DE AMBIENTE NO BASH PROFILE
 
 ```sh
 sudo tee -a ~/.bashrc > /dev/null <<EOF
@@ -59,7 +60,7 @@ git clone https://github.com/dihogoteixeira/tdc-cks-demo.git
 cd tdc-cks-demo/setup
 ```
 
-### DEFININDO SSH-KEY E USERNAME PARA SSH
+#### DEFININDO SSH-KEY E USERNAME PARA SSH
 
 Edite o arquivo [main.tf](setup/main.tf) e altere os `VALUES` da lista `ssh_keys`, substituindo pela sua chave publica, e seu username conforme exemplo abaixo:
 
@@ -78,7 +79,7 @@ Edite o arquivo [main.tf](setup/main.tf) e altere os `VALUES` da lista `ssh_keys
 
 Realize essa substituição para ambos os módulos `master` e `worker` instanciados no arquivo [main.tf](setup/main.tf).
 
-### EXECUTANDO O SETUP DO CLUSTER
+#### EXECUTANDO O SETUP DO CLUSTER
 
 ```sh
 terraform init
