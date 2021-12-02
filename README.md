@@ -2,7 +2,7 @@
 ![tdc-2021](https://img.shields.io/badge/tdc-2021-yellowblue?style=flat-square)
 ![terraform-latest](https://img.shields.io/badge/terraform-latest-blueviolet?style=flat-square)
 ![google-cloud](https://img.shields.io/badge/google-cloud-blue?style=flat-square)
-![k8s-v1_._22_._2](https://img.shields.io/badge/k8s-v1_._22_._2-blue?style=flat-square)
+![k8s-v1.22.2](https://img.shields.io/badge/k8s-v1.22.2-blue?style=flat-square)
 ---
 
 Repositório criado para auxiliar no processo de demonstração do TDC 2021 sessão FullCycle.
