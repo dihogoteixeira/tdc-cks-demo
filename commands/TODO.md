@@ -62,19 +62,19 @@ kubectl create -f pod.secret.yaml
 # VALIDANDO ENV
 ```sh
 kubectl get pod
-kubectl exec pod -- env |grep PASS
+kubectl exec <pod_name> -- env |grep PASS
 ```
 
 # VALIDANDO SECRET MOUNT FS
 ```sh
-kubectl exec pod -- mount |grep secret1
-kubectl exec pod -- find /etc/secret1
-kubectl exec pod -- find /etc/secret1/user
+kubectl exec <pod_name> -- mount |grep secret1
+kubectl exec <pod_name> -- find /etc/secret1
+kubectl exec <pod_name> -- find /etc/secret1/user
 ```
 
 ---
 
-#### EXPLORANDO SECRETS CONTAINER RUNTIME on Node
+#### EXPLORANDO SECRETS CONTAINER RUNTIME on WORKER NODE
 ```sh
 crictl ps
 crictl inspect <container_id>
@@ -88,7 +88,7 @@ crictl inspect <container_id> |grep PASSWORD
 ```
 
 ---
-# EXPLORANDO SECRETS NO ETCD on MASTER
+# EXPLORANDO SECRETS NO ETCD on MASTER NODE
 ```sh
 ETCDCTL_API=3 etcdctl endpoint health #failed
 ```
@@ -117,7 +117,13 @@ ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt --key
 ```sh
 cd /etc/kubernetes/
 mkdir etcd
+cd etcd
 vim ec.yaml
+```
+
+```sh
+echo -n passwordpassword | base64
+# cGFzc3dvcmRwYXNzd29yZA==
 ```
 
 ```yaml
@@ -132,11 +138,6 @@ resources:
         - name: key1
           secret: cGFzc3dvcmRwYXNzd29yZA==
     - identity: {}
-```
-
-```sh
-echo -n passwordpassword | base64
-# cGFzc3dvcmRwYXNzd29yZA==
 ```
 
 ```sh
@@ -252,7 +253,7 @@ resources:
     - aescbc:
         keys:
         - name: key1
-          secret: c2VjdXJlcGFzc3dvcmQ=
+          secret: cGFzc3dvcmRwYXNzd29yZA==
 #COMENTE  - identity: {} 
 ```
 
@@ -287,7 +288,7 @@ resources:
     - aescbc:
         keys:
         - name: key1
-          secret: c2VjdXJlcGFzc3dvcmQ=
+          secret: cGFzc3dvcmRwYXNzd29yZA==
     - identity: {} #DESCOMENTE
 ```
 
