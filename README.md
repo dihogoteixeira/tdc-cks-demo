@@ -61,7 +61,7 @@ cd tdc-cks-demo/setup
 
 ### DEFININDO SSH-KEY E USERNAME PARA SSH
 
-Edite o arquivo [main.tf](main.tf) e altere os `VALUES` da lista `ssh_keys`, substituindo pela sua chave publica, e seu username conforme exemplo abaixo:
+Edite o arquivo [main.tf](setup/main.tf) e altere os `VALUES` da lista `ssh_keys`, substituindo pela sua chave publica, e seu username conforme exemplo abaixo:
 
 ```go
   ...
@@ -76,7 +76,7 @@ Edite o arquivo [main.tf](main.tf) e altere os `VALUES` da lista `ssh_keys`, sub
   ...
 ```
 
-Realize essa substituição para ambos os módulos `master` e `worker` instanciados no arquivo [main.tf](main.tf "main.tf").
+Realize essa substituição para ambos os módulos `master` e `worker` instanciados no arquivo [main.tf](setup/main.tf).
 
 ### EXECUTANDO O SETUP DO CLUSTER
 
