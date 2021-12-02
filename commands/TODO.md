@@ -130,13 +130,13 @@ resources:
     - aescbc:
         keys:
         - name: key1
-          secret: c2VjdXJlcGFzc3dvcmQ=
+          secret: cGFzc3dvcmRwYXNzd29yZA==
     - identity: {}
 ```
 
 ```sh
-echo -n securepassword | base64
-# c2VjdXJlcGFzc3dvcmQ=
+echo -n passwordpassword | base64
+# cGFzc3dvcmRwYXNzd29yZA==
 ```
 
 ```sh
@@ -161,14 +161,17 @@ spec:
   containers:
   - command:
     - kube-apiserver
-    - --encryption-provider-config=/etc/kubernetes/etcd/ec.yaml # ADD COMMAND
+    # ADD COMMAND encryption-provider-config
+    - --encryption-provider-config=/etc/kubernetes/etcd/ec.yaml 
 ...
-    volumeMounts: # ADD VOLUMEMOUNTS
+    volumeMounts:
+    # ADD VOLUMEMOUNTS
     - mountPath: /etc/kubernetes/etcd
       name: etcd
       readOnly: true
 ...
-  volumes: # ADD VOLUMES
+  volumes:
+  # ADD VOLUMES
   - hostPath:
       path: /etc/kubernetes/etcd
       type: DirectoryOrCreate
