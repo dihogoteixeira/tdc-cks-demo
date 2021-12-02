@@ -76,7 +76,7 @@ Edite o arquivo [main.tf](main.tf) e altere os `VALUES` da lista `ssh_keys`, sub
   ...
 ```
 
-Realize essa substituição para ambos os módulos `master` e `worker` instanciados no arquivo [main.tf](main.tf).
+Realize essa substituição para ambos os módulos `master` e `worker` instanciados no arquivo [main.tf](main.tf "main.tf").
 
 ### EXECUTANDO O SETUP DO CLUSTER
 
