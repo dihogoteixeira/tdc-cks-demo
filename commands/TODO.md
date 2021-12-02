@@ -1,4 +1,4 @@
-# CRIANDO DUAS SECRETS E MONTANDO UTILIZANDO NO POD 
+#### CRIANDO SECRETS GENERICAS, UTILIZANDO NO POD 
 
 ```sh
 kubectl create secret generic secret1 --from-literal user=admin
@@ -7,10 +7,17 @@ kubectl run nginx --image=nginx --dry-run=client -o yaml > pod.secret.yaml
 ```
 
 ***secret1 using as file-from-a-pod (mount fs)***
+
+---
 [https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-files-from-a-pod](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-files-from-a-pod)
 
+---
+
 ***secret2 using as env (env var)***
+
+---
 [https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables](https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables)
+---
 
 ```yaml
 ---
@@ -50,6 +57,8 @@ status: {}
 kubectl create -f pod.secret.yaml
 ```
 
+---
+
 # VALIDANDO ENV
 ```sh
 kubectl get pod
@@ -63,7 +72,9 @@ kubectl exec pod -- find /etc/secret1
 kubectl exec pod -- find /etc/secret1/user
 ```
 
-# EXPLORANDO SECRETS CONTAINER RUNTIME on Node
+---
+
+#### EXPLORANDO SECRETS CONTAINER RUNTIME on Node
 ```sh
 crictl ps
 crictl inspect <container_id>
@@ -76,6 +87,7 @@ cat /proc/<filesystem_pid>/root/etc/secret1/user
 crictl inspect <container_id> |grep PASSWORD
 ```
 
+---
 # EXPLORANDO SECRETS NO ETCD on MASTER
 ```sh
 ETCDCTL_API=3 etcdctl endpoint health #failed
@@ -85,31 +97,23 @@ ETCDCTL_API=3 etcdctl endpoint health #failed
 ```sh
 cat /etc/kubernetes/manifests/kube-apiserver.yaml | grep etcd
 
-ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt
-  --key /etc/kubernetes/pki/apiserver-etcd-client.key
-  --cacert /etc/kubernetes/pki/etcd/ca.crt endpoint health
+ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt --key /etc/kubernetes/pki/apiserver-etcd-client.key --cacert /etc/kubernetes/pki/etcd/ca.crt endpoint health
 ```
 
 ***--endpoints "https://127.0.0.1:2379" not necessary because we’re on same node***
 ```sh
-ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt
-  --key /etc/kubernetes/pki/apiserver-etcd-client.key
-  --cacert /etc/kubernetes/pki/etcd/ca.crt
-  get /registry/secrets/default/secret1
+ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt --key /etc/kubernetes/pki/apiserver-etcd-client.key --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/default/secret1
 ```
 
 ```sh
-ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt
-  --key /etc/kubernetes/pki/apiserver-etcd-client.key
-  --cacert /etc/kubernetes/pki/etcd/ca.crt
-  get /registry/secrets/default/secret2
+ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt --key /etc/kubernetes/pki/apiserver-etcd-client.key --cacert /etc/kubernetes/pki/etcd/ca.crt get /registry/secrets/default/secret2
 ```
 
 ---
 
-#### Encryption etdc from MASTER NODE
-##### Encryption etcd k8s doc
-[https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
+#### ENCRIPTION ETCD from MASTER NODE
+[Encryption etcd k8s doc](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/ "Encryption etcd k8s doc")
+
 ```sh
 cd /etc/kubernetes/
 mkdir etcd
@@ -140,7 +144,7 @@ cd ../manifests/
 vim kube-adminserver.yaml
 ```
 
-[encrypt-data/#configuration](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#configuration-and-determining-whether-encryption-at-rest-is-already-enabled "encrypt-data/#configuration")
+[encrypt-data-onfiguration](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#configuration-and-determining-whether-encryption-at-rest-is-already-enabled "encrypt-data-configuration")
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -170,6 +174,8 @@ spec:
       type: DirectoryOrCreate
     name: etcd
 ```
+
+---
 
 ***RESTART APISERVER***
 ```sh
@@ -247,6 +253,8 @@ resources:
 #COMENTE  - identity: {} 
 ```
 
+---
+
 ***RESTART APISERVER***
 ```sh
 cd /etc/kubernetes/manifests
@@ -280,6 +288,8 @@ resources:
     - identity: {} #DESCOMENTE
 ```
 
+---
+
 ***RESTART APISERVER***
 ```sh
 cd /etc/kubernetes/manifests
@@ -298,6 +308,8 @@ ETCDCTL_API=3 etcdctl --cert /etc/kubernetes/pki/apiserver-etcd-client.crt
   --cacert /etc/kubernetes/pki/etcd/ca.crt
   get /registry/secrets/kube-system/<secret_name>
 ```
+
+---
 
 **RECAP**
 
